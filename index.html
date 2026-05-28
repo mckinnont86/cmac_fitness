@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Youth Athlete Training Plan — June to October & Beyond</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --green-deep: #0d5c3a;
+    --green-mid: #1a7a52;
+    --green-bright: #2ea86e;
+    --green-pale: #edf9f4;
+    --amber: #e8870a;
+    --amber-light: #fef3e0;
+    --purple-light: #f0ecfc;
+    --slate: #2d3748;
+    --slate-mid: #4a5568;
+    --slate-light: #718096;
+    --bg: #f7f9f7;
+    --white: #ffffff;
+    --border: #e2e8f0;
+    --radius: 12px;
+    --radius-sm: 8px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--slate); min-height: 100vh; line-height: 1.6; }
+
+  /* HERO */
+  .hero { background: var(--green-deep); padding: 56px 32px 48px; text-align: center; position: relative; overflow: hidden; }
+  .hero::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at 65% 0%, rgba(46,168,110,0.22) 0%, transparent 60%), radial-gradient(ellipse at 10% 100%, rgba(26,90,82,0.28) 0%, transparent 50%); pointer-events: none; }
+  .hero-badge { display: inline-block; background: rgba(46,168,110,0.18); border: 1px solid rgba(46,168,110,0.38); color: #7ee8b8; font-size: 11px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; padding: 5px 14px; border-radius: 99px; margin-bottom: 20px; }
+  .hero h1 { font-family: 'DM Serif Display', serif; font-size: clamp(2rem, 5vw, 3.2rem); color: #fff; line-height: 1.15; margin-bottom: 12px; position: relative; }
+  .hero h1 em { font-style: italic; color: #7ee8b8; }
+  .hero p { font-size: 15px; color: rgba(255,255,255,0.62); max-width: 520px; margin: 0 auto 32px; }
+  .hero-stats { display: flex; justify-content: center; gap: 36px; flex-wrap: wrap; position: relative; }
+  .hero-stat .num { display: block; font-family: 'DM Serif Display', serif; font-size: 2rem; color: #7ee8b8; line-height: 1; }
+  .hero-stat .lbl { font-size: 11px; color: rgba(255,255,255,0.48); text-transform: uppercase; letter-spacing: 0.08em; margin-top: 4px; }
+
+  /* TOP NAV — months row + tracker row */
+  .nav-wrap { max-width: 920px; margin: 0 auto; padding: 28px 24px 0; }
+  .top-tabs { display: flex; flex-direction: column; background: var(--white); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; }
+  .month-tabs-row { display: flex; }
+  .tl-month { flex: 1; padding: 13px 8px; text-align: center; cursor: pointer; transition: all 0.18s; border-right: 1px solid var(--border); min-width: 0; }
+  .tl-month:last-child { border-right: none; }
+  .tl-month:hover { background: var(--green-pale); }
+  .tl-month.active { background: var(--green-mid); color: white; }
+  .tl-month .tl-name { font-size: 12px; font-weight: 600; display: block; }
+  .tl-month .tl-phase { font-size: 9px; opacity: 0.62; text-transform: uppercase; letter-spacing: 0.06em; margin-top: 2px; }
+  .tl-month .tl-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--border); margin: 5px auto 0; transition: background 0.2s; }
+  .tl-month.active .tl-dot { background: #7ee8b8; }
+  .tracker-tab { width: 100%; padding: 10px 20px; text-align: center; cursor: pointer; transition: all 0.18s; background: #f8f8f8; border-top: 1px solid var(--border); display: flex; align-items: center; justify-content: center; gap: 8px; }
+  .tracker-tab:hover { background: #fff3e0; }
+  .tracker-tab.active { background: var(--amber); color: white; }
+  .tracker-tab .tl-name { font-size: 12px; font-weight: 600; }
+  .tracker-tab .tl-phase { font-size: 10px; opacity: 0.7; text-transform: uppercase; letter-spacing: 0.06em; }
+
+  .main { max-width: 920px; margin: 0 auto; padding: 24px 24px 64px; }
+
+  /* MONTH HEADER */
+  .month-header { display: flex; align-items: flex-start; justify-content: space-between; flex-wrap: wrap; gap: 12px; margin-bottom: 20px; padding: 20px 24px; background: var(--white); border: 1px solid var(--border); border-radius: var(--radius); border-left: 4px solid var(--green-bright); }
+  .month-header-left h2 { font-family: 'DM Serif Display', serif; font-size: 1.7rem; color: var(--slate); line-height: 1.2; }
+  .month-header-left .phase-tag { display: inline-block; font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; padding: 3px 10px; border-radius: 99px; margin-top: 6px; }
+  .month-header-left .focus-line { font-size: 13px; color: var(--slate-light); margin-top: 8px; max-width: 500px; line-height: 1.55; }
+  .coach-tip { background: var(--green-pale); border: 1px solid rgba(46,168,110,0.2); border-radius: var(--radius-sm); padding: 12px 16px; font-size: 13px; color: var(--green-deep); max-width: 280px; line-height: 1.6; }
+  .coach-tip strong { font-weight: 600; display: block; margin-bottom: 3px; font-size: 11px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--green-mid); }
+
+  .section-label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: var(--slate-light); margin-bottom: 10px; margin-top: 20px; }
+
+  /* WEEK GRID with completion dots */
+  .week-grid { display: grid; grid-template-columns: repeat(7, 1fr); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; background: var(--white); margin-bottom: 20px; }
+  .wg-head { display: contents; }
+  .wg-head span { background: var(--slate); color: rgba(255,255,255,0.68); text-align: center; padding: 9px 4px; font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; border-right: 1px solid rgba(255,255,255,0.07); }
+  .wg-head span:last-child { border-right: none; }
+  .wg-cell { padding: 9px 5px 10px; text-align: center; border-right: 1px solid var(--border); border-top: 1px solid var(--border); min-height: 120px; display: flex; flex-direction: column; align-items: center; gap: 3px; }
+  .wg-cell:last-child { border-right: none; }
+  .wg-cell.rest-day { background: #fafafa; }
+  .wg-emoji { font-size: 18px; }
+  .wg-main { font-size: 10px; color: var(--slate-mid); line-height: 1.3; font-weight: 500; }
+  .wg-cardio { font-size: 9px; color: var(--green-mid); line-height: 1.3; margin-top: 1px; font-style: italic; }
+  .wg-badge { font-size: 9px; font-weight: 600; padding: 2px 6px; border-radius: 99px; letter-spacing: 0.04em; text-transform: uppercase; margin-top: 2px; }
+
+
+  /* DAILY BREAKDOWN */
+  .daily-cardio-card { background: var(--white); border: 1px solid var(--border); border-top: 3px solid var(--green-bright); border-radius: var(--radius); padding: 14px 18px; margin-bottom: 14px; }
+  .dc-title { font-size: 12px; font-weight: 600; color: var(--green-deep); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 10px; }
+  .dc-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 8px; }
+  .dc-item { background: var(--green-pale); border: 1px solid rgba(46,168,110,0.18); border-radius: var(--radius-sm); padding: 9px 12px; font-size: 12px; color: var(--slate-mid); line-height: 1.45; }
+  .dc-item .dc-day { font-weight: 600; color: var(--green-deep); font-size: 11px; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 3px; }
+
+  /* WORKOUT CARDS */
+  .cards-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 14px; margin-bottom: 14px; }
+  .workout-card { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; }
+  .wc-header { padding: 12px 16px; display: flex; align-items: center; gap: 10px; border-bottom: 1px solid var(--border); }
+  .wc-icon { width: 32px; height: 32px; border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; font-size: 16px; flex-shrink: 0; }
+  .wc-title { font-size: 13px; font-weight: 600; color: var(--slate); }
+  .wc-sub { font-size: 11px; color: var(--slate-light); margin-top: 1px; }
+  .wc-body { padding: 0 16px 14px; }
+  .wc-item { display: flex; align-items: flex-start; gap: 8px; padding: 7px 0; border-bottom: 1px solid var(--border); font-size: 12.5px; color: var(--slate-mid); line-height: 1.45; }
+  .wc-item:last-child { border-bottom: none; }
+  .wc-dot-ind { width: 6px; height: 6px; border-radius: 50%; margin-top: 5px; flex-shrink: 0; }
+
+  /* PREHAB */
+  .prehab-card { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; margin-bottom: 14px; }
+  .prehab-header { padding: 12px 16px; display: flex; align-items: center; gap: 10px; border-bottom: 1px solid var(--border); background: #faf8ff; }
+  .prehab-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); }
+  .prehab-section { padding: 12px 16px; border-right: 1px solid var(--border); }
+  .prehab-section:last-child { border-right: none; }
+  .prehab-section-title { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.09em; color: var(--slate-light); margin-bottom: 8px; }
+  .prehab-item { font-size: 12px; color: var(--slate-mid); padding: 4px 0; border-bottom: 1px solid var(--border); line-height: 1.45; }
+  .prehab-item:last-child { border-bottom: none; }
+
+  /* OUTDOOR */
+  .outdoor-card { background: var(--amber-light, #fef3e0); border: 1px solid rgba(232,135,10,0.18); border-radius: var(--radius); padding: 14px 18px; margin-bottom: 14px; }
+  .oc-title { font-size: 12px; font-weight: 600; color: var(--amber); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 10px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 7px; }
+  .chip { background: var(--white); border: 1px solid rgba(232,135,10,0.22); border-radius: 99px; padding: 4px 12px; font-size: 12px; color: var(--slate-mid); }
+
+  /* RACE WEEK */
+  .race-week-card { background: #fffbf0; border: 1px solid rgba(232,135,10,0.3); border-left: 4px solid var(--amber); border-radius: var(--radius); padding: 16px 20px; margin-bottom: 14px; }
+  .rw-title { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.09em; color: var(--amber); margin-bottom: 10px; }
+  .rw-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 8px; }
+  .rw-item { background: var(--white); border: 1px solid rgba(232,135,10,0.18); border-radius: var(--radius-sm); padding: 9px 12px; font-size: 12px; color: var(--slate-mid); line-height: 1.45; }
+  .rw-item .rw-day { font-weight: 600; color: #854F0B; font-size: 11px; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 3px; }
+
+  /* ONGOING BANNER */
+  .ongoing-banner { background: var(--green-deep); border-radius: var(--radius); padding: 32px 28px; text-align: center; color: white; margin-top: 8px; }
+  .ongoing-banner h3 { font-family: 'DM Serif Display', serif; font-size: 1.6rem; margin-bottom: 10px; }
+  .ongoing-banner p { font-size: 13.5px; color: rgba(255,255,255,0.68); line-height: 1.7; max-width: 540px; margin: 0 auto 20px; }
+  .ongoing-banner .monthly-10k { display: inline-block; background: rgba(46,168,110,0.25); border: 1px solid rgba(126,232,184,0.4); color: #7ee8b8; font-size: 13px; font-weight: 600; padding: 10px 22px; border-radius: 99px; letter-spacing: 0.03em; }
+
+  /* NAV BUTTONS */
+  .nav-row { display: flex; justify-content: space-between; align-items: center; margin-top: 24px; flex-wrap: wrap; gap: 10px; }
+  .nav-btn { background: var(--green-mid); color: white; border: none; padding: 10px 22px; border-radius: 99px; font-size: 13px; font-family: inherit; font-weight: 600; cursor: pointer; letter-spacing: 0.02em; transition: background 0.15s; }
+  .nav-btn:hover { background: var(--green-deep); }
+  .nav-btn.ghost { background: transparent; color: var(--slate-mid); border: 1px solid var(--border); }
+  .nav-btn.ghost:hover { background: var(--bg); }
+
+  /* ===== TRACKER ===== */
+  .tracker-wrap { padding: 0; }
+  .tracker-header { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px 24px; margin-bottom: 20px; border-left: 4px solid var(--amber); }
+  .tracker-header h2 { font-family: 'DM Serif Display', serif; font-size: 1.6rem; color: var(--slate); }
+  .tracker-header p { font-size: 13px; color: var(--slate-light); margin-top: 6px; line-height: 1.55; max-width: 560px; }
+  .tracker-legend { display: flex; gap: 16px; margin-top: 12px; flex-wrap: wrap; }
+  .tleg-item { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--slate-mid); }
+  .tleg-dot { width: 12px; height: 12px; border-radius: 50%; }
+
+  .tracker-month-block { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; margin-bottom: 16px; }
+  .tmb-header { padding: 12px 18px; background: var(--slate); color: white; display: flex; align-items: center; justify-content: space-between; }
+  .tmb-header-left { display: flex; align-items: center; gap: 10px; }
+  .tmb-title { font-size: 14px; font-weight: 600; }
+  .tmb-phase { font-size: 10px; opacity: 0.6; text-transform: uppercase; letter-spacing: 0.06em; }
+  .tmb-progress { font-size: 12px; color: #7ee8b8; font-weight: 600; }
+
+  .tracker-week { border-top: 1px solid var(--border); }
+  .tracker-week-header { padding: 8px 18px; background: #f8faf8; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
+  .twh-label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--slate-light); }
+  .twh-count { font-size: 11px; color: var(--green-mid); font-weight: 600; }
+
+  .tracker-days { display: grid; grid-template-columns: repeat(7, 1fr); }
+  .tracker-day { padding: 10px 6px; text-align: center; border-right: 1px solid var(--border); }
+  .tracker-day:last-child { border-right: none; }
+  .tracker-day.rest-bg { background: #fafafa; }
+  .td-name { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: var(--slate-light); margin-bottom: 6px; }
+  .td-type { font-size: 9px; color: var(--slate-light); margin-bottom: 6px; line-height: 1.3; }
+  .td-dot {
+    width: 22px; height: 22px; border-radius: 50%;
+    border: 1.5px solid #cbd5e0;
+    background: transparent;
+    cursor: pointer;
+    transition: all 0.15s;
+    margin: 3px auto;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11px;
+  }
+  .td-dot:hover { border-color: var(--green-bright); background: var(--green-pale); }
+  .td-dot.done { background: var(--green-bright); border-color: var(--green-bright); color: white; }
+  .td-dot.done-rest { background: var(--amber); border-color: var(--amber); color: white; }
+  .td-dot.done::after { content: '✓'; }
+  .td-dot.done-rest::after { content: '✓'; }
+
+  .tracker-summary { padding: 14px 18px; background: var(--green-pale); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px; }
+  .ts-stat { text-align: center; }
+  .ts-num { font-family: 'DM Serif Display', serif; font-size: 1.4rem; color: var(--green-deep); display: block; }
+  .ts-label { font-size: 10px; color: var(--slate-light); text-transform: uppercase; letter-spacing: 0.06em; }
+  .ts-bar-wrap { flex: 1; min-width: 120px; max-width: 300px; }
+  .ts-bar-label { font-size: 10px; color: var(--slate-light); margin-bottom: 4px; display: flex; justify-content: space-between; }
+  .ts-bar-track { height: 8px; background: var(--border); border-radius: 99px; overflow: hidden; }
+  .ts-bar-fill { height: 100%; background: var(--green-bright); border-radius: 99px; transition: width 0.3s; }
+  .reset-btn { background: transparent; border: 1px solid rgba(232,135,10,0.3); color: var(--amber); font-size: 11px; padding: 4px 10px; border-radius: 99px; cursor: pointer; font-family: inherit; }
+  .reset-btn:hover { background: var(--amber-light, #fef3e0); }
+
+  @media (max-width: 680px) {
+    .hero { padding: 40px 20px 36px; }
+    .hero-stats { gap: 20px; }
+    .wg-cell { min-height: 100px; }
+    .month-header { flex-direction: column; }
+    .coach-tip { max-width: 100%; }
+    .prehab-grid { grid-template-columns: 1fr 1fr; }
+    .dc-grid { grid-template-columns: 1fr; }
+    .rw-grid { grid-template-columns: 1fr; }
+    .tracker-days { grid-template-columns: repeat(7, 1fr); }
+    .td-dot { width: 18px; height: 18px; font-size: 9px; }
+    .tracker-tab { padding: 13px 12px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="hero-badge">Youth Athlete · Age 10</div>
+  <h1>The Start of a<br><em>Fit, Active Life</em></h1>
+  <p>Bodyweight, bands & light dumbbells · Daily movement · Run/walk building to continuous running · June through October and well beyond</p>
+  <div class="hero-stats">
+    <div class="hero-stat"><span class="num">5</span><span class="lbl">Months</span></div>
+    <div class="hero-stat"><span class="num">10K</span><span class="lbl">Monthly Goal</span></div>
+    <div class="hero-stat"><span class="num">7</span><span class="lbl">Active Days</span></div>
+    <div class="hero-stat"><span class="num">∞</span><span class="lbl">From Here</span></div>
+  </div>
+</div>
+
+<div class="nav-wrap">
+  <div class="top-tabs" id="top-tabs"></div>
+</div>
+
+<div class="main" id="main-content"></div>
+
+<script>
+// ── STORAGE ──────────────────────────────────────────────────────────────────
+// trackData[monthIdx][weekIdx][dayIdx] = true/false
+// Stored in localStorage as JSON string
+const STORE_KEY = 'ytp_track_v1';
+function loadTrack() {
+  try { return JSON.parse(localStorage.getItem(STORE_KEY)) || {}; } catch(e) { return {}; }
+}
+function saveTrack(d) {
+  try { localStorage.setItem(STORE_KEY, JSON.stringify(d)); } catch(e) {}
+}
+let trackData = loadTrack();
+function getCell(mi, wi, di) {
+  return !!(trackData[mi] && trackData[mi][wi] && trackData[mi][wi][di]);
+}
+function toggleCell(mi, wi, di) {
+  if (!trackData[mi]) trackData[mi] = {};
+  if (!trackData[mi][wi]) trackData[mi][wi] = {};
+  trackData[mi][wi][di] = !trackData[mi][wi][di];
+  saveTrack(trackData);
+}
+function resetMonth(mi) {
+  trackData[mi] = {};
+  saveTrack(trackData);
+}
+
+// ── DATA ──────────────────────────────────────────────────────────────────────
+const MONTHS = [
+  {
+    name: "June", days: 30, phase: "Foundation", phaseColor: "#3B6D11", phaseBg: "#EAF3DE", accentColor: "#2ea86e",
+    focus: "Build the habit across all three pillars — strength, cardio, and daily movement. Quality over quantity. Every session counts.",
+    tip: "Every athlete starts from somewhere. The first few weeks of any training block aren't about fitness gains — they're about showing up. Consistency is the most important skill you can build right now. Keep it easy, keep it fun, and keep coming back. The body adapts quietly in the background even when it doesn't feel like much is happening.",
+    raceWeek: null,
+    strength: { sessions: "2× per week (Mon + Thu) — bodyweight only", flavor: "Focus entirely on form and controlled movement", items: ["Bodyweight squat — 2 sets × 10 reps (slow, 3 sec down)","Reverse lunge — 2 sets × 8 each leg","Incline push-up on a sturdy table — 2 sets × 8","Band pull-apart — 2 sets × 12","Band seated row (anchored) — 2 sets × 10","Dead bug hold — 2 sets × 20 sec each side","Glute bridge — 2 sets × 12"] },
+    cardio: { sessions: "Structured cardio 2× (Tue + Fri) + light daily movement every day", flavor: "Run/walk intervals and easy bike rides", items: ["Structured session: Walk 5 min → Jog 1 min — repeat 4× → Walk 5 min cool-down","OR: Easy bike ride 20–25 min at a chatty, comfortable pace","Goal: ~1–1.5 km total jogging per session","Effort rule: you should be able to hold a full conversation while jogging"] },
+    dailyCardio: [{day:"Monday",note:"5 min walk warm-up before strength session"},{day:"Tuesday",note:"Structured cardio — run/walk intervals (20–25 min)"},{day:"Wednesday",note:"15–20 min easy walk or gentle bike ride"},{day:"Thursday",note:"5 min walk warm-up before strength session"},{day:"Friday",note:"Structured cardio — easy bike or intervals (20–25 min)"},{day:"Saturday",note:"20–30 min easy walk, bike, or active outdoor play"},{day:"Sunday",note:"Rest day — 20 min gentle walk only. Nothing else."}],
+    prehab: { ankle:["Ankle circles — 10 each direction × 2","Bilateral calf raise — 2 × 15","Single-leg balance hold — 20 sec each side"], hip:["Hip 90/90 stretch — 60 sec each side","Lying hip flexor stretch — 45 sec each leg","Clamshells bodyweight — 2 × 12 each"], shoulder:["Arm circles forward & backward — 10 each","Band pull-apart — 2 × 12","Doorway chest stretch — 30 sec × 2"], stretch:["Standing quad stretch — 30 sec each leg","Seated hamstring reach — 30 sec each leg","Child's pose — 45 sec","Chest & shoulder open — 30 sec"] },
+    outdoor: ["Backyard games 45 min","Bike to a friend's house","Nature walk or trail explore","Playground & climbing structures","Swimming or water play","Active games with friends"],
+    week: [
+      {day:"Mon",emoji:"💪",main:"Strength + Prehab",cardio:"5 min warm-up walk",badge:"Strength",bc:"#185FA5",bb:"#E6F1FB",type:"strength"},
+      {day:"Tue",emoji:"🏃",main:"Run/Walk Intervals",cardio:"20–25 min structured",badge:"Cardio",bc:"#3B6D11",bb:"#EAF3DE",type:"cardio"},
+      {day:"Wed",emoji:"🚶",main:"Easy movement",cardio:"15–20 min walk/bike",badge:"Light",bc:"#854F0B",bb:"#FAEEDA",type:"light"},
+      {day:"Thu",emoji:"💪",main:"Strength + Prehab",cardio:"5 min warm-up walk",badge:"Strength",bc:"#185FA5",bb:"#E6F1FB",type:"strength"},
+      {day:"Fri",emoji:"🚴",main:"Bike or Run/Walk",cardio:"20–25 min structured",badge:"Cardio",bc:"#3B6D11",bb:"#EAF3DE",type:"cardio"},
+      {day:"Sat",emoji:"🌳",main:"Outdoor activity",cardio:"20–30 min active play",badge:"Active",bc:"#854F0B",bb:"#FAEEDA",type:"active"},
+      {day:"Sun",emoji:"😴",main:"Rest day",cardio:"20 min gentle walk",badge:"Rest",bc:"#5F5E5A",bb:"#F1EFE8",type:"rest",rest:true}
+    ]
+  },
+  {
+    name: "July", days: 31, phase: "Building", phaseColor: "#185FA5", phaseBg: "#E6F1FB", accentColor: "#378ADD",
+    focus: "Introduce light dumbbells for pressing. Extend jog intervals. Mix in swimming as an active recovery option.",
+    tip: "A few weeks in now — that matters. The body has started adapting, even if it's hard to see yet. This month the cardio gets a little longer, and the jog intervals get a little harder. The goal isn't to push to the limit — it's to do slightly more than last week, recover well, and repeat. That cycle, done consistently, is how all athletes improve.",
+    raceWeek: null,
+    strength: { sessions: "2× per week (Mon + Thu) — introduce light DBs", flavor: "Add shoulder press, increase reps slightly", items: ["Bodyweight squat — 3 sets × 12","Forward lunge — 3 sets × 10 each leg","Incline push-up on lower surface — 3 sets × 10","DB shoulder press (3–5 lb) — 2 sets × 10","Band lat pull-down — 3 sets × 12","Band bicep curl — 2 sets × 12","Plank hold — 2 sets × 25 sec","Glute bridge + 3 sec hold at top — 3 sets × 10"] },
+    cardio: { sessions: "Structured cardio 2–3× per week + daily light movement", flavor: "Longer jog blocks, introduce first speed intervals", items: ["Run/walk: Walk 4 min → Jog 2 min — repeat 5× (30 min total)","Interval day: 30 sec fast run / 90 sec walk × 8 rounds","Bike 25–35 min, moderate effort with 2–3 short surges","Swimming counts — 20 min active = full cardio session","Goal: ~2 km total jogging per run session"] },
+    dailyCardio: [{day:"Monday",note:"5–8 min walk warm-up before strength session"},{day:"Tuesday",note:"Structured run/walk intervals — 28–30 min"},{day:"Wednesday",note:"20 min easy bike or swim — very light effort"},{day:"Thursday",note:"5–8 min walk warm-up before strength session"},{day:"Friday",note:"Structured cardio — intervals or bike — 25–30 min"},{day:"Saturday",note:"Longer bike or swim — 25–35 min easy to moderate"},{day:"Sunday",note:"Rest day — 20 min easy walk. Legs moving, nothing more."}],
+    prehab: { ankle:["Single-leg calf raise — 2 × 12 each side","Ankle alphabet trace — 1 set each foot","Slow step-down control — 2 × 10 each leg"], hip:["Standing hip flexor lunge stretch — 45 sec each","Lateral band walk — 2 × 15 steps each way","Fire hydrant — 2 × 12 each side"], shoulder:["Band external rotation — 2 × 12 each side","W-T-Y raises (no weight) — 2 × 8 each position","Cross-body shoulder stretch — 30 sec each side"], stretch:["Modified pigeon pose — 45 sec each side","Lying hamstring stretch — 30 sec each leg","Thoracic rotation seated — 10 each side","Hip flexor couch stretch — 40 sec each leg"] },
+    outdoor: ["Swim at pool or lake","Hike a new trail","Backyard sprinkler games","Bike to a park","Outdoor pick-up sport","Scavenger hunt outside"],
+    week: [
+      {day:"Mon",emoji:"💪",main:"Strength + Prehab",cardio:"8 min warm-up walk",badge:"Strength",bc:"#185FA5",bb:"#E6F1FB",type:"strength"},
+      {day:"Tue",emoji:"🏃",main:"Run/Walk Intervals",cardio:"28–30 min structured",badge:"Cardio",bc:"#3B6D11",bb:"#EAF3DE",type:"cardio"},
+      {day:"Wed",emoji:"🏊",main:"Easy swim or bike",cardio:"20 min light effort",badge:"Light",bc:"#854F0B",bb:"#FAEEDA",type:"light"},
+      {day:"Thu",emoji:"💪",main:"Strength + Prehab",cardio:"8 min warm-up walk",badge:"Strength",bc:"#185FA5",bb:"#E6F1FB",type:"strength"},
+      {day:"Fri",emoji:"🏃",main:"Intervals or bike",cardio:"25–30 min structured",badge:"Cardio",bc:"#3B6D11",bb:"#EAF3DE",type:"cardio"},
+      {day:"Sat",emoji:"🚴",main:"Longer bike or swim",cardio:"25–35 min easy-mod",badge:"Active",bc:"#854F0B",bb:"#FAEEDA",type:"active"},
+      {day:"Sun",emoji:"😴",main:"Rest day",cardio:"20 min easy walk",badge:"Rest",bc:"#5F5E5A",bb:"#F1EFE8",type:"rest",rest:true}
+    ]
+  },
+  {
+    name: "August", days: 31, phase: "Development", phaseColor: "#5e3fb3", phaseBg: "#f0ecfc", accentColor: "#7F77DD",
+    focus: "Continuous running blocks begin. Move to 3 strength days. Goblet squats, step-ups, and DB deadlifts enter the mix.",
+    tip: "This is the month where real fitness starts to show. Continuous running — no walk breaks — is a big step both mentally and physically. Don't judge the pace, just judge the effort. Running slow and steady for 10 minutes is exactly the right work. Staying comfortable now builds the aerobic engine that makes everything else easier — sports, fitness, energy in daily life.",
+    raceWeek: null,
+    strength: { sessions: "3× per week (Mon + Wed + Fri)", flavor: "Goblet squat, DB Romanian DL, added core variety", items: ["DB goblet squat (5 lb) — 3 sets × 10","Step-ups on a sturdy box — 3 sets × 10 each leg","Floor push-up (or low incline if needed) — 3 sets × 8–10","DB bench press (3–5 lb) — 3 sets × 10","DB Romanian deadlift (5–8 lb) — 3 sets × 10","Band lat pull-down — 3 sets × 12","Side plank hold — 2 sets × 20 sec each side","Superman hold — 2 sets × 10 reps (3 sec hold each)"] },
+    cardio: { sessions: "Structured cardio 3× (Tue + Thu + Sat) + daily light movement", flavor: "Continuous 10–18 min runs, tempo effort introduced", items: ["Long run: Jog 10–12 min continuous → walk 3 min → jog 5 min","Interval day: 1 min fast / 1 min easy jog × 8–10 rounds","Bike: 35–45 min with 3–4 stronger effort surges","Tempo intro: 8 min easy → 5 min comfortably hard → 5 min easy","Goal: 3–4 km total running on long run days"] },
+    dailyCardio: [{day:"Monday",note:"Strength day — 8 min brisk walk or light jog warm-up"},{day:"Tuesday",note:"Structured run — continuous jog session (25–30 min)"},{day:"Wednesday",note:"Strength day — 8 min brisk walk warm-up"},{day:"Thursday",note:"Structured cardio — intervals or bike (30–40 min)"},{day:"Friday",note:"Strength day — 8 min easy jog or walk warm-up"},{day:"Saturday",note:"Structured long run or bike — 35–45 min"},{day:"Sunday",note:"Rest day — 20 min steady walk. Let the body rebuild."}],
+    prehab: { ankle:["Banded ankle dorsiflexion mobilization — 2 × 15 each","Small controlled single-leg hops — 3 × 8 each","Heel-to-toe balance walk — 2 room lengths"], hip:["90/90 hip lift + reach — 2 × 8 each side","Side-lying clamshell — 3 × 15","Deep squat hold — 2 × 30 sec"], shoulder:["Band face pull — 3 × 15","Prone Y raise (no weight) — 2 × 10","Sleeper stretch — 30 sec each side"], stretch:["World's greatest stretch — 5 reps each side","Lying glute stretch — 45 sec each","Doorway pec stretch — 30 sec × 2","Cat-cow with slow breath — 10 reps"] },
+    outdoor: ["Camping or overnight trip","Creek or river exploration","Backyard obstacle course","Longer bike trail ride","Yard games: cornhole, frisbee, bocce","Evening neighborhood jog with a parent"],
+    week: [
+      {day:"Mon",emoji:"💪",main:"Strength + Prehab",cardio:"8 min walk warm-up",badge:"Strength",bc:"#185FA5",bb:"#E6F1FB",type:"strength"},
+      {day:"Tue",emoji:"🏃",main:"Continuous run",cardio:"25–30 min structured",badge:"Cardio",bc:"#3B6D11",bb:"#EAF3DE",type:"cardio"},
+      {day:"Wed",emoji:"💪",main:"Strength + Prehab",cardio:"8 min walk warm-up",badge:"Strength",bc:"#185FA5",bb:"#E6F1FB",type:"strength"},
+      {day:"Thu",emoji:"🏃",main:"Intervals or tempo",cardio:"30–40 min structured",badge:"Cardio",bc:"#3B6D11",bb:"#EAF3DE",type:"cardio"},
+      {day:"Fri",emoji:"💪",main:"Strength + Prehab",cardio:"8 min easy jog/walk",badge:"Strength",bc:"#185FA5",bb:"#E6F1FB",type:"strength"},
+      {day:"Sat",emoji:"🚴",main:"Long run or bike",cardio:"35–45 min structured",badge:"Cardio",bc:"#3B6D11",bb:"#EAF3DE",type:"cardio"},
+      {day:"Sun",emoji:"😴",main:"Rest day",cardio:"20 min steady walk",badge:"Rest",bc:"#5F5E5A",bb:"#F1EFE8",type:"rest",rest:true}
+    ]
+  },
+  {
+    name: "September", days: 30, phase: "Progression", phaseColor: "#993c1d", phaseBg: "#fceee9", accentColor: "#D85A30",
+    focus: "Peak training volume. 20–28 min continuous runs. Race-pace work. Two build weeks, one lighter recovery week.",
+    tip: "September is where months of work start clicking together. The body is genuinely fitter than it was in June — the athlete just has to trust it and show up. This month introduces running at something close to race effort. It should feel challenging but not crushing. Comfortable-hard is exactly where real fitness gains live. And remember — this isn't just about one race. Every hard effort in September is building a foundation that will carry through sports, fitness, and life for years.",
+    raceWeek: {
+      title: "🏁 If doing a race this month — race week schedule",
+      note: "Keep the normal training week but ease up on the two runs before race day. The goal is arriving to the start line feeling fresh and ready, not tired from training.",
+      days: [{day:"Mon",note:"Normal strength session — keep it routine"},{day:"Tue",note:"Easy jog 15 min — relaxed, no pushing"},{day:"Wed",note:"Normal strength session"},{day:"Thu",note:"Easy jog 10–12 min — just to stay loose"},{day:"Fri",note:"Light walk 20 min + prehab only. Rest the legs."},{day:"Sat",note:"Race day — walk 5 min → jog easy first 2K → settle in → finish strong 🏅"},{day:"Sun",note:"Easy 20 min walk recovery. Celebrate the finish."}]
+    },
+    strength: { sessions: "3× per week (Mon + Wed + Fri) — circuit format", flavor: "Jump squats, single-leg focus, push-pull superset", items: ["Jump squat (land softly, 3 sec hold at bottom) — 3 sets × 8","Single-leg Romanian DL (bodyweight) — 3 sets × 8 each","Floor push-up — 3 sets × 10–15","DB press + DB row superset (5–8 lb) — 3 sets × 10 each","Band face pull — 3 sets × 15","Reverse lunge + knee drive at top — 3 sets × 10 each","Plank shoulder taps — 3 sets × 12 total","Mountain climbers — 3 sets × 20 total"] },
+    cardio: { sessions: "Structured cardio 3–4× per week + daily light movement", flavor: "20–28 min continuous, tempo runs, race-pace intervals", items: ["Long run: 22–28 min continuous at easy conversational pace","Tempo: 8 min easy → 10 min comfortably hard → 5 min easy","Race-pace intervals: 3 min at goal 10K effort / 2 min walk × 5","Bike or swim cross-training: 40–50 min steady","Goal: 5–6 km on long run days","Week 3: lighter recovery week — drop volume 20%, keep effort level"] },
+    dailyCardio: [{day:"Monday",note:"Strength day — 8–10 min easy jog warm-up"},{day:"Tuesday",note:"Structured run — long easy or tempo (30–35 min)"},{day:"Wednesday",note:"Strength day — 10 min easy jog warm-up"},{day:"Thursday",note:"Structured cardio — race intervals or bike (35–45 min)"},{day:"Friday",note:"Strength day — 10 min easy jog warm-up"},{day:"Saturday",note:"Longest run of the plan — 25–35 min continuous easy"},{day:"Sunday",note:"Rest day — 20 min walk. Easy. Let the week absorb."}],
+    prehab: { ankle:["Single-leg calf raise + slow eccentric lower — 3 × 15 each","Lateral band shuffle — 2 × 20 steps each way","Hop and stick landing — 3 × 5 each leg"], hip:["Walking hip circles — 10 each leg","Active hip flexor stretch with reach — 45 sec each","Glute bridge march — 3 × 10 each leg"], shoulder:["Band pull-apart — 3 × 15","W-T-Y raises (light or no weight) — 3 × 8 each","Cross-body + overhead combo stretch — 30 sec each"], stretch:["Cat-cow + thread-the-needle — 10 each","Runner's lunge with rotation — 45 sec each side","Standing IT band stretch — 30 sec each","Slow neck rolls — 5 each direction"] },
+    outdoor: ["Local fun run or park run event","Weekend hike on a new trail","State park or nature preserve","Longer family bike ride","Active family challenge day","Run the race route if accessible"],
+    week: [
+      {day:"Mon",emoji:"💪",main:"Strength + Prehab",cardio:"8–10 min jog warm-up",badge:"Strength",bc:"#185FA5",bb:"#E6F1FB",type:"strength"},
+      {day:"Tue",emoji:"🏃",main:"Long easy run",cardio:"30–35 min continuous",badge:"Cardio",bc:"#3B6D11",bb:"#EAF3DE",type:"cardio"},
+      {day:"Wed",emoji:"💪",main:"Strength + Prehab",cardio:"10 min easy jog warm-up",badge:"Strength",bc:"#185FA5",bb:"#E6F1FB",type:"strength"},
+      {day:"Thu",emoji:"🏃",main:"Tempo or race intervals",cardio:"30–40 min structured",badge:"Cardio",bc:"#3B6D11",bb:"#EAF3DE",type:"cardio"},
+      {day:"Fri",emoji:"💪",main:"Strength + Prehab",cardio:"10 min easy jog warm-up",badge:"Strength",bc:"#185FA5",bb:"#E6F1FB",type:"strength"},
+      {day:"Sat",emoji:"🏃",main:"Longest run of plan",cardio:"25–35 min easy",badge:"Cardio",bc:"#3B6D11",bb:"#EAF3DE",type:"cardio"},
+      {day:"Sun",emoji:"😴",main:"Rest day",cardio:"20 min easy walk",badge:"Rest",bc:"#5F5E5A",bb:"#F1EFE8",type:"rest",rest:true}
+    ]
+  },
+  {
+    name: "October", days: 31, phase: "Ongoing Fitness", phaseColor: "#0F6E56", phaseBg: "#E1F5EE", accentColor: "#1D9E75",
+    focus: "Full training continues — no taper. This is the new normal. Aim for one 10K event per month as a personal milestone going forward.",
+    tip: "October isn't the end — it's the beginning of the rest of the journey. The fitness built over the last five months is a foundation, not a destination. Keep the same training rhythm going: strength 3 days, cardio daily, rest day walk Sunday. The monthly 10K is a personal benchmark to look forward to — not a competition to win, just a goal to celebrate. Fit and active is a lifestyle, and this month it becomes a permanent one.",
+    raceWeek: {
+      title: "🏁 If doing a race this month — race week schedule",
+      note: "No dramatic taper needed — just ease the two runs right before race day. Keep strength as normal. The body is fit, trained, and ready.",
+      days: [{day:"Mon",note:"Normal strength session — routine as always"},{day:"Tue",note:"Easy jog 15 min — relaxed, just keeping legs moving"},{day:"Wed",note:"Normal strength session"},{day:"Thu",note:"Easy jog 10 min — loose and comfortable only"},{day:"Fri",note:"20 min walk + prehab only. Save the legs."},{day:"Sat",note:"Race day 🏅 — walk 5 min → jog easy 2K → find your pace → finish"},{day:"Sun",note:"20 min easy recovery walk. Then plan the next one."}]
+    },
+    strength: { sessions: "3× per week (Mon + Wed + Fri) — maintain and grow", flavor: "Full-body, all movements familiar, continue to progress", items: ["DB goblet squat (5–8 lb) — 3 sets × 12","Reverse lunge — 3 sets × 12 each leg","Floor push-up — 3 sets × 12–15","DB shoulder press (5–8 lb) — 3 sets × 10","Band row — 3 sets × 12","DB Romanian deadlift (5–8 lb) — 3 sets × 12","Plank hold — 3 sets × 35 sec","Single-leg calf raise — 3 sets × 15 each"] },
+    cardio: { sessions: "Structured cardio 3× per week + daily light movement — same rhythm as September", flavor: "Maintain 25–30 min run capacity. Monthly 10K goal.", items: ["Long run: 25–30 min continuous at easy to moderate pace","Tempo: 8 min easy → 10 min comfortably hard → 5 min easy","Bike or swim cross-training: 40–50 min steady","Monthly 10K: run/walk as needed — finish is the goal every time","Goal distance: 6–7 km on regular long run days","Over time: push the long run to 35–40 min as fitness grows"] },
+    dailyCardio: [{day:"Monday",note:"Strength day — 10 min easy jog warm-up"},{day:"Tuesday",note:"Structured run — 25–30 min continuous easy to moderate"},{day:"Wednesday",note:"Strength day — 10 min easy jog warm-up"},{day:"Thursday",note:"Structured cardio — tempo or bike (35–45 min)"},{day:"Friday",note:"Strength day — 10 min easy jog warm-up"},{day:"Saturday",note:"Long run or monthly 10K event — go enjoy it"},{day:"Sunday",note:"Rest day — 20 min walk. Always. Every week."}],
+    prehab: { ankle:["Single-leg calf raise + eccentric — 3 × 15 each","Lateral band shuffle — 2 × 20 steps each way","Ankle hop and stick — 3 × 6 each leg"], hip:["90/90 hip mobilization — 60 sec each side","Active hip flexor stretch + reach — 45 sec each","Glute bridge march — 3 × 12 each leg"], shoulder:["Band face pull — 3 × 15","W-T-Y raises (light DB optional) — 3 × 8","Overhead + cross-body stretch combo — 30 sec each"], stretch:["World's greatest stretch — 5 each side","Runner's lunge with rotation — 45 sec each side","IT band stretch + pigeon — 45 sec each","Full cat-cow + thread-the-needle — 10 each"] },
+    outdoor: ["Monthly 10K run event or park run","Autumn trail hike","Bike a new route","Active family weekend challenge","Plan next month's 10K","Celebrate every finish line 🏅"],
+    week: [
+      {day:"Mon",emoji:"💪",main:"Strength + Prehab",cardio:"10 min easy jog warm-up",badge:"Strength",bc:"#185FA5",bb:"#E6F1FB",type:"strength"},
+      {day:"Tue",emoji:"🏃",main:"Continuous run",cardio:"25–30 min easy-mod",badge:"Cardio",bc:"#3B6D11",bb:"#EAF3DE",type:"cardio"},
+      {day:"Wed",emoji:"💪",main:"Strength + Prehab",cardio:"10 min easy jog warm-up",badge:"Strength",bc:"#185FA5",bb:"#E6F1FB",type:"strength"},
+      {day:"Thu",emoji:"🏃",main:"Tempo or bike",cardio:"35–45 min structured",badge:"Cardio",bc:"#3B6D11",bb:"#EAF3DE",type:"cardio"},
+      {day:"Fri",emoji:"💪",main:"Strength + Prehab",cardio:"10 min easy jog warm-up",badge:"Strength",bc:"#185FA5",bb:"#E6F1FB",type:"strength"},
+      {day:"Sat",emoji:"🏅",main:"Long run or 10K event",cardio:"30 min+ or race distance",badge:"Cardio",bc:"#3B6D11",bb:"#EAF3DE",type:"cardio"},
+      {day:"Sun",emoji:"😴",main:"Rest day",cardio:"20 min walk — always",badge:"Rest",bc:"#5F5E5A",bb:"#F1EFE8",type:"rest",rest:true}
+    ]
+  }
+];
+
+const WEEK_LABELS = ['Week 1','Week 2','Week 3','Week 4','Week 5'];
+const N_WEEKS = 5;
+let currentView = 'month'; // 'month' | 'tracker'
+let currentMonth = 0;
+
+// ── RENDER TOP TABS ───────────────────────────────────────────────────────────
+function renderTabs() {
+  const wrap = document.getElementById('top-tabs');
+  wrap.innerHTML = '';
+
+  // row 1: month tabs
+  const monthRow = document.createElement('div');
+  monthRow.className = 'month-tabs-row';
+  MONTHS.forEach((m, i) => {
+    const div = document.createElement('div');
+    div.className = 'tl-month' + (currentView === 'month' && currentMonth === i ? ' active' : '');
+    div.innerHTML = `<span class="tl-name">${m.name}</span><span class="tl-phase">${m.phase}</span><div class="tl-dot"></div>`;
+    div.onclick = () => { currentView = 'month'; currentMonth = i; render(); window.scrollTo({top:0,behavior:'smooth'}); };
+    monthRow.appendChild(div);
+  });
+  wrap.appendChild(monthRow);
+
+  // row 2: tracker tab spanning full width
+  const tDiv = document.createElement('div');
+  tDiv.className = 'tracker-tab' + (currentView === 'tracker' ? ' active' : '');
+  tDiv.innerHTML = `<span class="tl-name">📋 Progress Tracker</span><span class="tl-phase">— tap to log completed days</span>`;
+  tDiv.onclick = () => { currentView = 'tracker'; render(); window.scrollTo({top:0,behavior:'smooth'}); };
+  wrap.appendChild(tDiv);
+}
+
+// ── HELPERS ───────────────────────────────────────────────────────────────────
+function addLabel(parent, text) {
+  const el = document.createElement('p');
+  el.className = 'section-label';
+  el.textContent = text;
+  parent.appendChild(el);
+}
+
+function monthCompletedDays(mi) {
+  let c = 0;
+  for (let w = 0; w < N_WEEKS; w++)
+    for (let d = 0; d < 7; d++)
+      if (getCell(mi, w, d)) c++;
+  return c;
+}
+
+// ── RENDER MONTH VIEW ─────────────────────────────────────────────────────────
+function renderMonthView() {
+  const m = MONTHS[currentMonth];
+  const mi = currentMonth;
+  const main = document.getElementById('main-content');
+  main.innerHTML = '';
+
+  // header
+  const hdr = document.createElement('div');
+  hdr.className = 'month-header';
+  hdr.style.borderLeftColor = m.accentColor;
+  hdr.innerHTML = `
+    <div class="month-header-left">
+      <h2>${m.name} — <span style="color:${m.accentColor};">${m.phase}</span></h2>
+      <span class="phase-tag" style="background:${m.phaseBg};color:${m.phaseColor};">${m.phase}</span>
+      <p class="focus-line">${m.focus}</p>
+    </div>
+    <div class="coach-tip"><strong>🏅 Coach's note</strong>${m.tip}</div>`;
+  main.appendChild(hdr);
+
+  // week schedule label
+  addLabel(main, 'Weekly schedule — every day has movement');
+
+  // week grid with completion dots
+  const wg = document.createElement('div');
+  wg.className = 'week-grid';
+  const wgHead = document.createElement('div');
+  wgHead.className = 'wg-head';
+  m.week.forEach(d => { const s = document.createElement('span'); s.textContent = d.day; wgHead.appendChild(s); });
+  wg.appendChild(wgHead);
+
+  m.week.forEach((d, di) => {
+    const cell = document.createElement('div');
+    cell.className = 'wg-cell' + (d.rest ? ' rest-day' : '');
+    cell.innerHTML = `<span class="wg-emoji">${d.emoji}</span><span class="wg-main">${d.main}</span><span class="wg-cardio">${d.cardio}</span><span class="wg-badge" style="background:${d.bb};color:${d.bc};">${d.badge}</span>`;
+
+    wg.appendChild(cell);
+  });
+  main.appendChild(wg);
+
+  // daily breakdown
+  addLabel(main, 'Daily movement breakdown — every day, including rest day');
+  const dc = document.createElement('div');
+  dc.className = 'daily-cardio-card';
+  dc.innerHTML = `<div class="dc-title">🚶 Light movement every day — rest day = 20 min walk, no exceptions</div>
+    <div class="dc-grid">${m.dailyCardio.map(d=>`<div class="dc-item"><div class="dc-day">${d.day}</div>${d.note}</div>`).join('')}</div>`;
+  main.appendChild(dc);
+
+  // workout details
+  addLabel(main, 'Workout details');
+  const cards = document.createElement('div');
+  cards.className = 'cards-2';
+  const mkCard = (emoji, iconBg, title, sub, items, dotColor) => {
+    const c = document.createElement('div');
+    c.className = 'workout-card';
+    c.innerHTML = `<div class="wc-header"><div class="wc-icon" style="background:${iconBg};">${emoji}</div><div><div class="wc-title">${title}</div><div class="wc-sub">${sub}</div></div></div>
+      <div class="wc-body">${items.map(it=>`<div class="wc-item"><div class="wc-dot-ind" style="background:${dotColor};"></div><span>${it}</span></div>`).join('')}</div>`;
+    return c;
+  };
+  cards.appendChild(mkCard('💪','#dbeafe','Strength Training',m.strength.sessions,m.strength.items,'#378ADD'));
+  cards.appendChild(mkCard('🏃','#dcfce7','Cardio & Running',m.cardio.sessions,m.cardio.items,'#2ea86e'));
+  main.appendChild(cards);
+
+  // prehab
+  addLabel(main, 'Prehab & stretching — 10 min at start or end of every session');
+  const ph = document.createElement('div');
+  ph.className = 'prehab-card';
+  ph.innerHTML = `<div class="prehab-header"><div class="wc-icon" style="background:#f0ecfc;font-size:16px;">🧘</div><div><div class="wc-title">Prehab Routine</div><div class="wc-sub">Ankle · Hip · Shoulder · Flexibility — rotate emphasis each week</div></div></div>
+    <div class="prehab-grid">
+      <div class="prehab-section"><div class="prehab-section-title">🦵 Ankle & Lower Leg</div>${m.prehab.ankle.map(x=>`<div class="prehab-item">${x}</div>`).join('')}</div>
+      <div class="prehab-section"><div class="prehab-section-title">🍑 Hip & Glutes</div>${m.prehab.hip.map(x=>`<div class="prehab-item">${x}</div>`).join('')}</div>
+      <div class="prehab-section"><div class="prehab-section-title">💪 Shoulder & Upper Back</div>${m.prehab.shoulder.map(x=>`<div class="prehab-item">${x}</div>`).join('')}</div>
+      <div class="prehab-section"><div class="prehab-section-title">🌿 Flexibility & Stretch</div>${m.prehab.stretch.map(x=>`<div class="prehab-item">${x}</div>`).join('')}</div>
+    </div>`;
+  main.appendChild(ph);
+
+  // outdoor
+  addLabel(main, 'Outside activity — beyond the workout (aim for 45–60 min active daily)');
+  const oc = document.createElement('div');
+  oc.className = 'outdoor-card';
+  oc.innerHTML = `<div class="oc-title">☀️ Non-workout outdoor ideas for ${m.name}</div><div class="chips">${m.outdoor.map(c=>`<span class="chip">${c}</span>`).join('')}</div>`;
+  main.appendChild(oc);
+
+  // race week at BOTTOM for sep + oct
+  if (m.raceWeek) {
+    addLabel(main, 'Race week guidance — if doing an event this month');
+    const rw = document.createElement('div');
+    rw.className = 'race-week-card';
+    rw.innerHTML = `<div class="rw-title">${m.raceWeek.title}</div>
+      <p style="font-size:12.5px;color:var(--slate-mid);margin-bottom:12px;line-height:1.55;">${m.raceWeek.note}</p>
+      <div class="rw-grid">${m.raceWeek.days.map(d=>`<div class="rw-item"><div class="rw-day">${d.day}</div>${d.note}</div>`).join('')}</div>`;
+    main.appendChild(rw);
+  }
+
+  // october ongoing banner
+  if (mi === 4) {
+    const banner = document.createElement('div');
+    banner.className = 'ongoing-banner';
+    banner.innerHTML = `<h3>This is just the beginning</h3>
+      <p>Five months of consistent work has built something real — strength, endurance, a daily movement habit, and the confidence that comes from doing hard things. Keep the same weekly rhythm going into November and beyond. One 10K a month is the new goal post, not a finish line.</p>
+      <span class="monthly-10k">🏅 One 10K per month — every month from here</span>`;
+    main.appendChild(banner);
+  }
+
+  // nav
+  const nav = document.createElement('div');
+  nav.className = 'nav-row';
+  nav.innerHTML = mi > 0
+    ? `<button class="nav-btn ghost" onclick="goMonth(${mi-1})">← ${MONTHS[mi-1].name}</button>`
+    : `<span></span>`;
+  if (mi < MONTHS.length - 1)
+    nav.innerHTML += `<button class="nav-btn" onclick="goMonth(${mi+1})">Next: ${MONTHS[mi+1].name} →</button>`;
+  main.appendChild(nav);
+}
+
+function goMonth(i) { currentView='month'; currentMonth=i; render(); window.scrollTo({top:0,behavior:'smooth'}); }
+
+// ── RENDER TRACKER VIEW ───────────────────────────────────────────────────────
+function renderTrackerView() {
+  const main = document.getElementById('main-content');
+  main.innerHTML = '';
+
+  const hdr = document.createElement('div');
+  hdr.className = 'tracker-header';
+  hdr.innerHTML = `<h2>📋 Weekly Progress Tracker</h2>
+    <p>Tap any circle to mark that day as complete for that week. Up to 5 weeks tracked per month. Green = workout done · Orange = rest day walk done.</p>
+    <div class="tracker-legend">
+      <div class="tleg-item"><div class="tleg-dot" style="background:#2ea86e;"></div>Day completed</div>
+      <div class="tleg-item"><div class="tleg-dot" style="background:#e8870a;"></div>Rest day walk done</div>
+      <div class="tleg-item"><div class="tleg-dot" style="background:#e2e8f0;border:1.5px solid #cbd5e0;"></div>Not yet done</div>
+    </div>`;
+  main.appendChild(hdr);
+
+  MONTHS.forEach((m, mi) => {
+    const totalPossible = m.days;
+    const completed = monthCompletedDays(mi);
+    const pct = Math.round((completed / totalPossible) * 100);
+
+    const block = document.createElement('div');
+    block.className = 'tracker-month-block';
+
+    // block header
+    const bh = document.createElement('div');
+    bh.className = 'tmb-header';
+    bh.innerHTML = `<div class="tmb-header-left">
+        <div>
+          <div class="tmb-title">${m.name}</div>
+          <div class="tmb-phase">${m.phase}</div>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:14px;">
+        <div style="text-align:right;">
+          <div class="tmb-progress" data-month-progress="${mi}">${completed} / ${totalPossible} days</div>
+          <div style="font-size:9px;opacity:0.5;text-transform:uppercase;letter-spacing:.06em;" data-month-pct="${mi}">${pct}% complete</div>
+        </div>
+        <button class="reset-btn" onclick="doReset(${mi})">Reset</button>
+      </div>`;
+    block.appendChild(bh);
+
+    // progress bar
+    const pbWrap = document.createElement('div');
+    pbWrap.style = 'padding:10px 18px 0;background:#f8faf8;border-bottom:1px solid var(--border);';
+    pbWrap.innerHTML = `<div class="ts-bar-track" style="margin-bottom:10px;"><div class="ts-bar-fill" data-month-bar="${mi}" style="width:${pct}%;"></div></div>`;
+    block.appendChild(pbWrap);
+
+    // weeks
+    for (let wi = 0; wi < N_WEEKS; wi++) {
+      const weekDone = m.week.filter((_, di) => getCell(mi, wi, di)).length;
+      const wSection = document.createElement('div');
+      wSection.className = 'tracker-week';
+
+      const wHdr = document.createElement('div');
+      wHdr.className = 'tracker-week-header';
+      wHdr.innerHTML = `<span class="twh-label">${WEEK_LABELS[wi]}</span><span class="twh-count" data-week-count="${mi}-${wi}">${weekDone}/7 days</span>`;
+      wSection.appendChild(wHdr);
+
+      const daysRow = document.createElement('div');
+      daysRow.className = 'tracker-days';
+      m.week.forEach((d, di) => {
+        const dd = document.createElement('div');
+        dd.className = 'tracker-day' + (d.rest ? ' rest-bg' : '');
+        const done = getCell(mi, wi, di);
+        const dotClass = done ? (d.rest ? 'td-dot done-rest' : 'td-dot done') : 'td-dot';
+        dd.innerHTML = `<div class="td-name">${d.day}</div>
+          <div class="td-type">${d.badge}</div>
+          <div class="${dotClass}" data-cell="${mi}-${wi}-${di}" onclick="doToggle(${mi},${wi},${di})"></div>`;
+        daysRow.appendChild(dd);
+      });
+      wSection.appendChild(daysRow);
+      block.appendChild(wSection);
+    }
+
+    main.appendChild(block);
+  });
+
+  // overall summary
+  const total = MONTHS.reduce((s, m) => s + m.days, 0);
+  const allDone = MONTHS.reduce((s, _, mi) => s + monthCompletedDays(mi), 0);
+  const overallPct = Math.round((allDone / total) * 100);
+  const summCard = document.createElement('div');
+  summCard.style = 'background:var(--white);border:1px solid var(--border);border-radius:var(--radius);padding:20px 24px;margin-top:4px;';
+  summCard.innerHTML = `<p class="section-label" style="margin-top:0;">Overall 5-month progress</p>
+    <div style="display:flex;align-items:center;gap:20px;flex-wrap:wrap;margin-top:8px;">
+      <div class="ts-stat"><span class="ts-num" id="overall-done">${allDone}</span><span class="ts-label">Days logged</span></div>
+      <div class="ts-stat"><span class="ts-num" id="overall-rem">${total - allDone}</span><span class="ts-label">Days remaining</span></div>
+      <div class="ts-stat"><span class="ts-num" id="overall-pct">${overallPct}%</span><span class="ts-label">Complete</span></div>
+      <div class="ts-bar-wrap">
+        <div class="ts-bar-label"><span>Progress</span><span>${allDone}/${total}</span></div>
+        <div class="ts-bar-track"><div class="ts-bar-fill" id="overall-bar" style="width:${overallPct}%;"></div></div>
+      </div>
+    </div>`;
+  main.appendChild(summCard);
+}
+
+function doToggle(mi, wi, di) {
+  toggleCell(mi, wi, di);
+  const done = getCell(mi, wi, di);
+  const isRest = MONTHS[mi].week[di].rest;
+  // update just the clicked dot
+  const dotEl = document.querySelector(`[data-cell="${mi}-${wi}-${di}"]`);
+  if (dotEl) {
+    dotEl.className = done ? (isRest ? 'td-dot done-rest' : 'td-dot done') : 'td-dot';
+  }
+  // update the week count for this week row
+  const weekDone = MONTHS[mi].week.filter((_, d2) => getCell(mi, wi, d2)).length;
+  const whEl = document.querySelector(`[data-week-count="${mi}-${wi}"]`);
+  if (whEl) whEl.textContent = `${weekDone}/7 days`;
+  // update month progress bar and count
+  const completed = monthCompletedDays(mi);
+  const totalPossible = MONTHS[mi].days;
+  const pct = Math.round((completed / totalPossible) * 100);
+  const progEl = document.querySelector(`[data-month-progress="${mi}"]`);
+  if (progEl) { progEl.textContent = `${completed} / ${totalPossible} days`; }
+  const pctEl = document.querySelector(`[data-month-pct="${mi}"]`);
+  if (pctEl) { pctEl.textContent = `${pct}% complete`; }
+  const barEl = document.querySelector(`[data-month-bar="${mi}"]`);
+  if (barEl) { barEl.style.width = pct + '%'; }
+  // update overall summary
+  const allDone = MONTHS.reduce((s, _, m2) => s + monthCompletedDays(m2), 0);
+  const total = MONTHS.reduce((s, m2) => s + m2.days, 0);
+  const overallPct = Math.round((allDone / total) * 100);
+  const ovDone = document.getElementById('overall-done');
+  const ovRem = document.getElementById('overall-rem');
+  const ovPct = document.getElementById('overall-pct');
+  const ovBar = document.getElementById('overall-bar');
+  if (ovDone) ovDone.textContent = allDone;
+  if (ovRem) ovRem.textContent = total - allDone;
+  if (ovPct) ovPct.textContent = overallPct + '%';
+  if (ovBar) ovBar.style.width = overallPct + '%';
+}
+
+function doReset(mi) {
+  if (confirm(`Reset all tracking for ${MONTHS[mi].name}?`)) { resetMonth(mi); renderTrackerView(); }
+}
+
+// ── MAIN RENDER ───────────────────────────────────────────────────────────────
+function render() {
+  renderTabs();
+  if (currentView === 'tracker') {
+    renderTrackerView();
+  } else {
+    renderMonthView();
+  }
+}
+
+render();
+</script>
+</body>
+</html>
