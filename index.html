@@ -67,21 +67,22 @@
 
   .section-label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: var(--slate-light); margin-bottom: 10px; margin-top: 20px; }
 
-  /* WEEK GRID with completion dots */
-  .week-grid { display: grid; grid-template-columns: repeat(7, 1fr); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; background: var(--white); margin-bottom: 20px; }
+  /* WEEK GRID */
+  .week-grid { display: grid; grid-template-columns: repeat(7, 1fr); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; background: var(--white); margin-bottom: 20px; width: 100%; }
   .wg-head { display: contents; }
-  .wg-head span { background: var(--slate); color: rgba(255,255,255,0.68); text-align: center; padding: 9px 4px; font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; border-right: 1px solid rgba(255,255,255,0.07); }
+  .wg-head span { background: var(--slate); color: rgba(255,255,255,0.68); text-align: center; padding: 8px 2px; font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; border-right: 1px solid rgba(255,255,255,0.07); }
   .wg-head span:last-child { border-right: none; }
-  .wg-cell { padding: 9px 5px 10px; text-align: center; border-right: 1px solid var(--border); border-top: 1px solid var(--border); min-height: 120px; display: flex; flex-direction: column; align-items: center; gap: 3px; }
+  .wg-cell { padding: 8px 3px 9px; text-align: center; border-right: 1px solid var(--border); border-top: 1px solid var(--border); min-height: 110px; display: flex; flex-direction: column; align-items: center; gap: 2px; overflow: hidden; }
   .wg-cell:last-child { border-right: none; }
   .wg-cell.rest-day { background: #fafafa; }
-  .wg-emoji { font-size: 18px; }
-  .wg-main { font-size: 10px; color: var(--slate-mid); line-height: 1.3; font-weight: 500; }
-  .wg-cardio { font-size: 9px; color: var(--green-mid); line-height: 1.3; margin-top: 1px; font-style: italic; }
-  .wg-badge { font-size: 9px; font-weight: 600; padding: 2px 6px; border-radius: 99px; letter-spacing: 0.04em; text-transform: uppercase; margin-top: 2px; }
+  .wg-emoji { font-size: 16px; }
+  .wg-main { font-size: 9.5px; color: var(--slate-mid); line-height: 1.25; font-weight: 500; word-break: break-word; }
+  .wg-cardio { font-size: 8.5px; color: var(--green-mid); line-height: 1.25; margin-top: 1px; font-style: italic; word-break: break-word; }
+  .wg-badge { font-size: 8px; font-weight: 600; padding: 2px 4px; border-radius: 99px; letter-spacing: 0.02em; text-transform: uppercase; margin-top: 2px; }
 
 
-  /* DAILY BREAKDOWN */
+  .day-short { display: none; }
+  .day-full { display: inline; }
   .daily-cardio-card { background: var(--white); border: 1px solid var(--border); border-top: 3px solid var(--green-bright); border-radius: var(--radius); padding: 14px 18px; margin-bottom: 14px; }
   .dc-title { font-size: 12px; font-weight: 600; color: var(--green-deep); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 10px; }
   .dc-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 8px; }
@@ -193,7 +194,6 @@
   @media (max-width: 680px) {
     .hero { padding: 40px 20px 36px; }
     .hero-stats { gap: 20px; }
-    .wg-cell { min-height: 100px; }
     .month-header { flex-direction: column; }
     .coach-tip { max-width: 100%; }
     .prehab-grid { grid-template-columns: 1fr 1fr; }
@@ -201,7 +201,16 @@
     .rw-grid { grid-template-columns: 1fr; }
     .tracker-days { grid-template-columns: repeat(7, 1fr); }
     .td-dot { width: 18px; height: 18px; font-size: 9px; }
-    .tracker-tab { padding: 13px 12px; }
+    .tracker-tab { padding: 10px 8px; }
+    .day-short { display: inline; }
+    .day-full { display: none; }
+    /* week grid — shrink everything to keep all 7 days on screen */
+    .wg-head span { font-size: 7.5px; padding: 6px 1px; letter-spacing: 0; }
+    .wg-cell { padding: 5px 2px 6px; min-height: 0; gap: 2px; }
+    .wg-emoji { font-size: 13px; }
+    .wg-main { font-size: 7.5px; line-height: 1.2; }
+    .wg-cardio { font-size: 7px; display: none; }
+    .wg-badge { font-size: 7px; padding: 1px 3px; }
   }
 </style>
 </head>
@@ -437,7 +446,11 @@ function renderMonthView() {
   wg.className = 'week-grid';
   const wgHead = document.createElement('div');
   wgHead.className = 'wg-head';
-  m.week.forEach(d => { const s = document.createElement('span'); s.textContent = d.day; wgHead.appendChild(s); });
+  m.week.forEach(d => {
+    const s = document.createElement('span');
+    s.innerHTML = `<span class="day-full">${d.day}</span><span class="day-short">${d.day.slice(0,2)}</span>`;
+    wgHead.appendChild(s);
+  });
   wg.appendChild(wgHead);
 
   m.week.forEach((d, di) => {
